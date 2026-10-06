@@ -45,7 +45,7 @@
   const hero = $('.hero'), stage = $('#stage'), video = $('#hero-video'), poster = $('#poster'), ring = $('#ring');
   const VIDEO_URL = 'assets/hero-scrub.mp4';
   const POSTER_URL = 'assets/hero-poster.jpg';
-  const VIDEO_BYTES = 5627116; /* the real byte size of assets/hero-scrub.mp4; fallback when Content-Length is missing */
+  const VIDEO_BYTES = 2109322; /* the real byte size of assets/hero-scrub.mp4; fallback when Content-Length is missing */
   const bandEls = $$('.band');
   const bands = bandEls.map((el, i) => ({ el, a: +el.dataset.a, b: +el.dataset.b, ramp: el.dataset.ramp ? +el.dataset.ramp : null, op: -1, k: -1, first: i === 0, last: i === bandEls.length - 1 }));
 
@@ -92,7 +92,7 @@
   function tick(now) {
     const dt = Math.min(100, now - (lastTick || now));
     lastTick = now;
-    const k = 0.16;
+    const k = 0.22;
     shown += (target - shown) * (1 - Math.pow(1 - k, dt / 16.667));
     if (loadK < 1) { const t = clamp((now - loadStart) / 1400, 0, 1); loadK = t * t * (3 - 2 * t); }
     const converged = Math.abs(target - shown) < 0.0005 && loadK >= 1;
