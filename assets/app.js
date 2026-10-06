@@ -1,4 +1,4 @@
-/* Sigma PMO: the scroll engine and the page's motion. Plain JavaScript, no dependencies. */
+/* Sigma PMO, version four: the scroll engine, the frame and menu, text that decodes into place, the chapter loops and the page's motion. Plain JavaScript, no dependencies. */
 (() => {
   'use strict';
   const $ = s => document.querySelector(s);
@@ -7,24 +7,131 @@
   const smoothstep = (p, e0, e1) => { const t = clamp((p - e0) / (e1 - e0), 0, 1); return t * t * (3 - 2 * t); };
   function rng(seed) { let s = seed >>> 0; return () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296; }
   const reduceMQ = matchMedia('(prefers-reduced-motion: reduce)');
+  const html = document.documentElement;
   let pinned = false;
 
-  /* ---------- Nav ---------- */
-  const nav = $('#nav'), burger = $('#burger');
-  let navScrolled = false;
-  function navState() { const s = scrollY > 40; if (s !== navScrolled) { navScrolled = s; nav.classList.toggle('scrolled', s); } }
-  addEventListener('scroll', navState, { passive: true }); navState();
-  burger.addEventListener('click', () => {
-    const open = nav.classList.toggle('open');
-    burger.setAttribute('aria-expanded', String(open));
-    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  /* ---------- The frame: a full-screen menu behind the top-right label ---------- */
+  const menuBtn = $('#menu-btn'), menu = $('#menu');
+  let menuOpen = false;
+  function setMenu(open, restoreFocus) {
+    if (open === menuOpen) return;
+    menuOpen = open;
+    html.classList.toggle('menu-open', open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+    if (open) {
+      setTimeout(() => { const first = menu.querySelector('a'); if (first && menuOpen) first.focus(); }, 280);
+    } else if (restoreFocus) { menuBtn.focus(); }
+  }
+  menuBtn.addEventListener('click', () => setMenu(!menuOpen, true));
+  $$('#menu a, .frame a').forEach(a => a.addEventListener('click', () => setMenu(false, false)));
+  document.addEventListener('keydown', e => {
+    if (!menuOpen) return;
+    if (e.key === 'Escape') { e.preventDefault(); setMenu(false, true); return; }
+    if (e.key === 'Tab') {
+      const f = [menuBtn].concat($$('#menu a'));
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
   });
-  $$('#menu a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); }));
+
+  /* ---------- The bottom-right readout: which chapter is on screen ---------- */
+  const chapters = $$('[data-chapter]');
+  const roNum = $('#ro-num'), roName = $('#ro-name');
+  let roKey = '';
+  function readoutTick() {
+    const line = innerHeight * 0.5;
+    let cur = chapters[0];
+    for (const c of chapters) { if (c.getBoundingClientRect().top <= line) cur = c; else break; }
+    const key = cur.dataset.chapter;
+    if (key !== roKey) { roKey = key; roNum.textContent = key; roName.textContent = cur.dataset.name; }
+  }
 
   /* ---------- Pause everything on hidden tabs ---------- */
-  document.addEventListener('visibilitychange', () => document.body.classList.toggle('paused', document.hidden));
+  document.addEventListener('visibilitychange', () => { document.body.classList.toggle('paused', document.hidden); syncLoops(); });
 
-  /* ---------- Split headlines into word spans, once, with seeded offsets ---------- */
+  /* ---------- Text that decodes: glyph noise resolves into the words, once, when the element comes into view ---------- */
+  const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+-/<>=';
+  const decodes = new Map();
+  $$('[data-decode]').forEach((el, i) => {
+    const text = el.textContent.replace(/\s+/g, ' ').trim();
+    el.textContent = '';
+    const sr = document.createElement('span'); sr.className = 'sr'; sr.textContent = text;
+    const vis = document.createElement('span'); vis.className = 'dx'; vis.setAttribute('aria-hidden', 'true');
+    el.appendChild(sr); el.appendChild(vis);
+    const r = rng(777 + i * 131);
+    const order = Array.from(text, (ch, j) => /[A-Za-z0-9]/.test(ch) ? (j / text.length) * 0.65 + r() * 0.35 : -1);
+    const d = { el, vis, text, order, done: false, raf: null, t0: 0, frame: 0, last: '', dur: clamp(520 + text.length * 14, 600, 1500) };
+    d.last = scrambled(d, 0); vis.textContent = d.last;
+    decodes.set(el, d);
+  });
+  function scrambled(d, t) {
+    let s = '';
+    for (let j = 0; j < d.text.length; j++) { const o = d.order[j]; s += (o < 0 || t >= o) ? d.text[j] : GLYPHS[(Math.random() * GLYPHS.length) | 0]; }
+    return s;
+  }
+  function decodeStep(d, now) {
+    d.raf = null;
+    if (!d.t0) d.t0 = now;
+    const t = clamp((now - d.t0) / d.dur, 0, 1);
+    if (t >= 1) { finishDecode(d); return; }
+    d.frame++;
+    if (d.frame % 2 === 0) { const s = scrambled(d, t); if (s !== d.last) { d.last = s; d.vis.textContent = s; } }
+    d.raf = requestAnimationFrame(n => decodeStep(d, n));
+  }
+  function finishDecode(d) {
+    if (d.raf !== null) { cancelAnimationFrame(d.raf); d.raf = null; }
+    d.done = true;
+    if (d.last !== d.text) { d.last = d.text; d.vis.textContent = d.text; }
+  }
+  function startDecode(d) {
+    if (d.done || d.raf !== null) return;
+    if (pinned) { finishDecode(d); return; }
+    d.t0 = 0; d.raf = requestAnimationFrame(n => decodeStep(d, n));
+  }
+  const decodeIO = new IntersectionObserver(es => {
+    es.forEach(e => { if (!e.isIntersecting) return; decodeIO.unobserve(e.target); const d = decodes.get(e.target); if (d) startDecode(d); });
+  }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+  decodes.forEach(d => decodeIO.observe(d.el));
+
+  /* ---------- Chapter loops: fetched only when near, played only while on screen, never under reduced motion or Save-Data ---------- */
+  const loops = $$('video.loop');
+  const saveData = !!(navigator.connection && navigator.connection.saveData);
+  function loopFail(v) {
+    const box = v.parentElement;
+    if (v.poster) box.style.backgroundImage = "url('" + v.poster + "')";
+    v.remove();
+  }
+  function loadLoop(v) {
+    if (v.dataset.loaded || pinned || saveData || !v.isConnected) return;
+    v.dataset.loaded = '1';
+    v.src = v.dataset.src;
+    v.load();
+  }
+  function playLoop(v) {
+    if (!v.dataset.loaded || pinned || document.hidden || !v.isConnected) return;
+    const p = v.play(); if (p && p.catch) p.catch(() => {});
+  }
+  const loopNear = new IntersectionObserver(es => {
+    es.forEach(e => { if (!e.isIntersecting) return; loadLoop(e.target); if (e.target.dataset.loaded) loopNear.unobserve(e.target); });
+  }, { rootMargin: '75% 0px 75% 0px' });
+  const loopVis = new IntersectionObserver(es => {
+    es.forEach(e => { const v = e.target; v.dataset.vis = e.isIntersecting ? '1' : ''; if (e.isIntersecting) playLoop(v); else if (!v.paused) v.pause(); });
+  }, { threshold: 0.02 });
+  loops.forEach(v => {
+    v.addEventListener('error', () => loopFail(v), { once: true });
+    v.addEventListener('loadeddata', () => { if (v.dataset.vis) playLoop(v); });
+    loopNear.observe(v); loopVis.observe(v);
+  });
+  function syncLoops() {
+    loops.forEach(v => {
+      if (!v.isConnected) return;
+      if (pinned || document.hidden) { if (!v.paused) v.pause(); }
+      else if (v.dataset.vis) { if (!v.dataset.loaded) loadLoop(v); playLoop(v); }
+    });
+  }
+
+  /* ---------- Split hero headlines into word spans, once, with seeded offsets ---------- */
   $$('[data-split="words"]').forEach((el, ei) => {
     const text = el.textContent.trim();
     const words = text.split(/\s+/);
@@ -224,11 +331,12 @@
     $$('.num[data-count]').forEach(el => { el.textContent = (el.dataset.prefix || '') + el.dataset.count + (el.dataset.suffix || ''); });
   }
 
-  /* ---------- Scroll-drawn lines: the convergence signature and the timeline ---------- */
+  /* ---------- Scroll-driven writes: the readout, the convergence signature and the timeline ---------- */
   const drawEls = $$('.conv, .tl').map(el => ({ el, v: -1, steps: el.classList.contains('tl') ? Array.from(el.querySelectorAll('.step')) : null }));
   let drawRaf = null;
   function drawTick() {
     drawRaf = null;
+    readoutTick();
     if (pinned) return;
     const H = innerHeight;
     for (const d of drawEls) {
@@ -350,7 +458,9 @@
     drawEls.forEach(d => { d.v = 1; d.el.style.setProperty('--draw', '1'); if (d.steps) d.steps.forEach(s => s.classList.add('lit')); });
     pinCounters();
     completeHold();
+    decodes.forEach(finishDecode);
     $$('[data-reveal]').forEach(el => el.classList.add('in', 'done'));
+    syncLoops();
   }
   function unpinFinalStates() {
     if (!pinned) return;
@@ -359,6 +469,7 @@
     drawEls.forEach(d => { d.v = -1; });
     resetHold();
     drawTick();
+    syncLoops();
   }
   reduceMQ.addEventListener('change', e => { if (e.matches) pinToFinalStates(); else { unpinFinalStates(); applyHeroMode(); } });
 

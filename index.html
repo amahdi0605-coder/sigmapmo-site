@@ -16,27 +16,41 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='1' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23065C5A'/%3E%3Cstop offset='1' stop-color='%231AE0C9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23g)' d='M8 6h48L44 18H28l12 14-12 14h16l12 12H8l12-12 12-14-12-14z'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Lato:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <div class="env" aria-hidden="true"></div>
 
-<header class="nav" id="nav">
-  <a class="brand" href="#top" aria-label="Sigma PMO home"><img src="assets/logo.png" alt="Sigma Consulting | PMO" width="1062" height="400"></a>
-  <button class="burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span></button>
-  <nav class="menu" id="menu" aria-label="Primary">
-    <a href="#services">Services</a>
-    <a href="#how">How it works</a>
-    <a href="#why">Why Sigma</a>
-    <a href="#founders">Founders</a>
-    <a href="#faq">FAQ</a>
-    <a class="btn btn-nav" href="#book">Book a free evaluation session</a>
-  </nav>
+<!-- The frame: four corners, always on screen -->
+<header class="frame" id="frame">
+  <span class="fr fr-tl">Owner-side PMO <span class="dot">·</span> Power utilities</span>
+  <a class="fr fr-tc brand" href="#top" aria-label="Sigma PMO home"><img src="assets/logo.png" alt="Sigma Consulting | PMO" width="1062" height="400"></a>
+  <button class="fr fr-tr menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu"><span class="lbl-open">Menu</span><span class="lbl-close">Close</span></button>
+  <span class="fr fr-bl"><a href="https://www.linkedin.com/company/sigma-pmo-llc/" rel="noopener">LinkedIn</a><span class="dot">·</span><a href="mailto:info@sigmapmo.com">Mail</a></span>
+  <span class="fr fr-br" id="readout"><span id="ro-num">00</span> / 07 <span class="dot">·</span> <span id="ro-name">Introduction</span></span>
 </header>
 
-<section class="hero" id="top" aria-label="Introduction">
+<nav class="menu" id="menu" aria-label="Primary">
+  <ol class="menu-list">
+    <li><a href="#ch1"><span class="mn">01</span>The problem</a></li>
+    <li><a href="#services"><span class="mn">02</span>Services</a></li>
+    <li><a href="#how"><span class="mn">03</span>How it works</a></li>
+    <li><a href="#why"><span class="mn">04</span>Why Sigma</a></li>
+    <li><a href="#idea"><span class="mn">05</span>The idea</a></li>
+    <li><a href="#public"><span class="mn">06</span>The public side</a></li>
+    <li><a href="#book"><span class="mn">07</span>Next step</a></li>
+    <li><a href="#founders"><span class="mn"></span>Founders</a></li>
+    <li><a href="#faq"><span class="mn"></span>FAQ</a></li>
+  </ol>
+  <div class="menu-foot">
+    <a class="btn" href="#book">Book a free evaluation session</a>
+    <span class="menu-alt"><a href="mailto:info@sigmapmo.com">info@sigmapmo.com</a><span class="dot">·</span><a href="https://www.linkedin.com/company/sigma-pmo-llc/" rel="noopener">LinkedIn</a></span>
+  </div>
+</nav>
+
+<section class="hero" id="top" aria-label="Introduction" data-chapter="00" data-name="Introduction">
   <div class="stage" id="stage">
     <div class="poster" id="poster"></div>
     <video id="hero-video" preload="none" muted playsinline aria-hidden="true" tabindex="-1"></video>
@@ -88,7 +102,7 @@
       <li class="part"><span class="num" data-count="51" data-suffix="%">51%</span><span class="lbl">women-owned</span></li>
     </ul>
     <div class="creds part">
-      <span class="mono-lbl">Credentials and tools</span>
+      <span class="mono-lbl" data-decode>Credentials and tools</span>
       <ul class="cred-row" aria-label="Credentials and tools">
         <li>51 percent women-owned</li>
         <li>PMP-certified leadership</li>
@@ -102,18 +116,22 @@
     </div>
   </section>
 
-  <div class="horizon" aria-hidden="true"></div>
-
-  <section class="problem" id="problem" data-reveal>
-    <div class="wrap two">
+  <section class="chapter" id="ch1" data-chapter="01" data-name="The problem" data-reveal>
+    <div class="ch-open">
+      <div class="ch-media"><video class="loop" muted loop playsinline preload="none" data-src="assets/loop-substation.mp4" poster="assets/loop-substation.jpg" aria-hidden="true" tabindex="-1"></video></div>
+      <div class="ch-veil" aria-hidden="true"></div>
+      <div class="ch-head">
+        <span class="ch-num" data-decode>01 · The problem</span>
+        <h2 class="ch-title" data-decode>The schedule says one thing. The forecast says another. The board hears a third.</h2>
+      </div>
+    </div>
+    <div class="ch-body wrap two">
       <div class="col">
-        <span class="kicker part">THE PROBLEM</span>
-        <h2 class="part">The schedule says one thing. The forecast says another. The board hears a third.</h2>
         <div class="conv part" aria-hidden="true"><svg viewBox="0 0 1200 60" preserveAspectRatio="none"><path class="cl" pathLength="1" d="M0 2 L600 56"/><path class="cl" pathLength="1" d="M1200 2 L600 56"/><circle class="cp" cx="600" cy="56" r="4"/></svg></div>
         <p class="lede part">Most utility programs do not fail for lack of a plan. They fail because the plan stopped describing the work and nobody said so. The baseline moves. The monthly report lands on Monday and answers nothing. By the time the overspend shows in the actuals, the money is gone. Then the commission asks for the records.</p>
       </div>
       <div class="col quotes">
-        <span class="mono-lbl part">IN THEIR WORDS</span>
+        <span class="mono-lbl part" data-decode>In their words</span>
         <blockquote class="part"><p>"The plans and schedules are not reflective of actual project circumstances."</p><cite>Independent assessment of V.C. Summer Units 2 and 3, filed with the South Carolina Public Service Commission.</cite></blockquote>
         <blockquote class="part"><p>"Commissioners don't like surprises, even if it's their birthday."</p><cite>Nick Wagner, former commissioner, Iowa Utilities Commission.</cite></blockquote>
         <blockquote class="part"><p>"Did not result in any documentation is an indication of imprudence."</p><cite>Missouri Public Service Commission staff, construction audit.</cite></blockquote>
@@ -121,14 +139,16 @@
     </div>
   </section>
 
-
-  <section class="services" id="services" data-reveal>
-    <div class="wrap">
-      <div class="head">
-        <span class="kicker part">SERVICES</span>
-        <h2 class="part">Six things that have to agree.</h2>
-        <div class="conv part" aria-hidden="true"><svg viewBox="0 0 1200 60" preserveAspectRatio="none"><path class="cl" pathLength="1" d="M0 2 L600 56"/><path class="cl" pathLength="1" d="M1200 2 L600 56"/><circle class="cp" cx="600" cy="56" r="4"/></svg></div>
+  <section class="chapter" id="services" data-chapter="02" data-name="Services" data-reveal>
+    <div class="ch-open">
+      <div class="ch-media"><video class="loop" muted loop playsinline preload="none" data-src="assets/loop-wind.mp4" poster="assets/loop-wind.jpg" aria-hidden="true" tabindex="-1"></video></div>
+      <div class="ch-veil" aria-hidden="true"></div>
+      <div class="ch-head">
+        <span class="ch-num" data-decode>02 · Services</span>
+        <h2 class="ch-title" data-decode>Six things that have to agree.</h2>
       </div>
+    </div>
+    <div class="ch-body wrap">
       <ul class="cards">
         <li class="card part">
           <svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 36 L42 36"/><path d="M6 14 C 18 14, 24 36, 42 36"/><path d="M6 25 C 18 25, 26 36, 42 36"/><circle cx="42" cy="36" r="2.5" class="dot"/></svg>
@@ -164,29 +184,36 @@
     </div>
   </section>
 
-  <section class="how" id="how" data-reveal>
-    <div class="wrap two">
-      <div class="col">
-        <span class="kicker part">HOW IT WORKS</span>
-        <h2 class="part">Eight weeks. One line.</h2>
-        <div class="conv part" aria-hidden="true"><svg viewBox="0 0 1200 60" preserveAspectRatio="none"><path class="cl" pathLength="1" d="M0 2 L600 56"/><path class="cl" pathLength="1" d="M1200 2 L600 56"/><circle class="cp" cx="600" cy="56" r="4"/></svg></div>
-        <ol class="tl part" id="tl">
-          <svg class="tl-line" viewBox="0 0 4 100" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 0 L2 100"/></svg>
-          <li class="step"><span class="node" aria-hidden="true"></span><span class="mono-lbl">WEEKS 1 TO 2</span><h3>Baseline.</h3><p>We take the schedule, the estimate and the risk register you already have and build one approved baseline from them. Scope, cost and schedule, agreed and signed.</p></li>
-          <li class="step"><span class="node" aria-hidden="true"></span><span class="mono-lbl">WEEKS 3 TO 5</span><h3>Cadence.</h3><p>A monthly rhythm that answers four questions: what slipped, what is about to slip, what it cost, and what decision you need to make.</p></li>
-          <li class="step"><span class="node" aria-hidden="true"></span><span class="mono-lbl">WEEKS 6 TO 8</span><h3>Governance.</h3><p>Stage gates, dashboards, and the records that let you show a commission exactly how every dollar was overseen.</p></li>
-        </ol>
-        <p class="close part">Then it runs. Your team owns it. Our advisors stay as long as you want them and not a day longer.</p>
+  <section class="chapter" id="how" data-chapter="03" data-name="How it works" data-reveal>
+    <div class="ch-open">
+      <div class="ch-media"><video class="loop" muted loop playsinline preload="none" data-src="assets/loop-solar.mp4" poster="assets/loop-solar.jpg" aria-hidden="true" tabindex="-1"></video></div>
+      <div class="ch-veil" aria-hidden="true"></div>
+      <div class="ch-head">
+        <span class="ch-num" data-decode>03 · How it works</span>
+        <h2 class="ch-title" data-decode>Eight weeks. One line.</h2>
       </div>
-      <div class="col art part" aria-hidden="true"><div class="e-art"></div></div>
+    </div>
+    <div class="ch-body wrap narrow">
+      <ol class="tl part" id="tl">
+        <svg class="tl-line" viewBox="0 0 4 100" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 0 L2 100"/></svg>
+        <li class="step"><span class="node" aria-hidden="true"></span><span class="mono-lbl">Weeks 1 to 2</span><h3>Baseline.</h3><p>We take the schedule, the estimate and the risk register you already have and build one approved baseline from them. Scope, cost and schedule, agreed and signed.</p></li>
+        <li class="step"><span class="node" aria-hidden="true"></span><span class="mono-lbl">Weeks 3 to 5</span><h3>Cadence.</h3><p>A monthly rhythm that answers four questions: what slipped, what is about to slip, what it cost, and what decision you need to make.</p></li>
+        <li class="step"><span class="node" aria-hidden="true"></span><span class="mono-lbl">Weeks 6 to 8</span><h3>Governance.</h3><p>Stage gates, dashboards, and the records that let you show a commission exactly how every dollar was overseen.</p></li>
+      </ol>
+      <p class="close part">Then it runs. Your team owns it. Our advisors stay as long as you want them and not a day longer.</p>
     </div>
   </section>
 
-  <section class="why" id="why" data-reveal>
-    <div class="wrap">
-      <span class="kicker part">WHY SIGMA</span>
-      <h2 class="part">Independent. Owner-side. Senior.</h2>
-      <div class="conv part" aria-hidden="true"><svg viewBox="0 0 1200 60" preserveAspectRatio="none"><path class="cl" pathLength="1" d="M0 2 L600 56"/><path class="cl" pathLength="1" d="M1200 2 L600 56"/><circle class="cp" cx="600" cy="56" r="4"/></svg></div>
+  <section class="chapter" id="why" data-chapter="04" data-name="Why Sigma" data-reveal>
+    <div class="ch-open">
+      <div class="ch-media"><video class="loop" muted loop playsinline preload="none" data-src="assets/loop-corridor.mp4" poster="assets/loop-corridor.jpg" aria-hidden="true" tabindex="-1"></video></div>
+      <div class="ch-veil" aria-hidden="true"></div>
+      <div class="ch-head">
+        <span class="ch-num" data-decode>04 · Why Sigma</span>
+        <h2 class="ch-title" data-decode>Independent. Owner-side. Senior.</h2>
+      </div>
+    </div>
+    <div class="ch-body wrap">
       <div class="rows">
         <div class="r part"><h3>We do no engineering, procurement or construction.</h3><p>So there is no later role to angle for. Our only interest is your program coming in on the number.</p></div>
         <div class="r part"><h3>The people you meet are the people who show up.</h3><p>Two founders, twenty years in power, no second team. Your advisor on day one is your advisor in month six.</p></div>
@@ -195,16 +222,16 @@
     </div>
   </section>
 
-  <section class="idea" id="idea" data-reveal>
-    <div class="wrap center">
-      <span class="kicker part">THE IDEA</span>
-      <h2 class="part">Convergence.</h2>
+  <section class="chapter chapter-plain" id="idea" data-chapter="05" data-name="The idea" data-reveal>
+    <div class="ch-body wrap center">
+      <span class="ch-num part" data-decode>05 · The idea</span>
+      <h2 class="part" data-decode>Convergence.</h2>
       <div class="conv part" aria-hidden="true"><svg viewBox="0 0 1200 60" preserveAspectRatio="none"><path class="cl" pathLength="1" d="M0 2 L600 56"/><path class="cl" pathLength="1" d="M1200 2 L600 56"/><circle class="cp" cx="600" cy="56" r="4"/></svg></div>
       <p class="lede part">Cost, schedule and risk are three lines. On a healthy program they head to the same place: one number you can put in front of a board, a commission and yourself. That is what Sigma builds. Press and hold to see it.</p>
       <div class="instrument part" id="instrument">
         <svg class="inst" viewBox="0 0 1000 300" aria-hidden="true">
           <defs>
-            <linearGradient id="lg" gradientUnits="userSpaceOnUse" x1="40" y1="0" x2="960" y2="0"><stop offset="0" stop-color="#012040" stop-opacity=".35"/><stop offset="1" stop-color="#0369A1"/></linearGradient>
+            <linearGradient id="lg" gradientUnits="userSpaceOnUse" x1="40" y1="0" x2="960" y2="0"><stop offset="0" stop-color="#0F172A" stop-opacity=".35"/><stop offset="1" stop-color="#0369A1"/></linearGradient>
             <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
           </defs>
           <path class="ln" id="ln-cost" d="M40 70 C 300 20, 600 110, 960 70"/>
@@ -229,11 +256,16 @@
     </div>
   </section>
 
-  <section class="public" id="public" data-reveal>
-    <div class="wrap">
-      <span class="kicker part">FOR THE PUBLIC SIDE</span>
-      <h2 class="part">Built for the people who have to answer for the money.</h2>
-      <div class="conv part" aria-hidden="true"><svg viewBox="0 0 1200 60" preserveAspectRatio="none"><path class="cl" pathLength="1" d="M0 2 L600 56"/><path class="cl" pathLength="1" d="M1200 2 L600 56"/><circle class="cp" cx="600" cy="56" r="4"/></svg></div>
+  <section class="chapter" id="public" data-chapter="06" data-name="The public side" data-reveal>
+    <div class="ch-open">
+      <div class="ch-media"><img src="assets/hero-ending.jpg" alt="" aria-hidden="true" loading="lazy" width="1440" height="810"></div>
+      <div class="ch-veil" aria-hidden="true"></div>
+      <div class="ch-head">
+        <span class="ch-num" data-decode>06 · The public side</span>
+        <h2 class="ch-title" data-decode>Built for the people who have to answer for the money.</h2>
+      </div>
+    </div>
+    <div class="ch-body wrap">
       <p class="lede part">Commission staff, public power boards, agency program offices and procurement teams read the same numbers we build for the owner. Every baseline, change and decision is kept in the form a review asks for, so the record reads the same from either side of the table.</p>
       <ul class="pub-row">
         <li class="part"><span class="mono-lbl">Regulators and commission staff</span><p>Prudence-ready records and filings. Nothing reconstructed after the fact.</p></li>
@@ -246,8 +278,8 @@
 
   <section class="founders" id="founders" data-reveal>
     <div class="wrap">
-      <span class="kicker part">FOUNDERS</span>
-      <h2 class="part">Two people, one standard.</h2>
+      <span class="kicker part" data-decode>Founders</span>
+      <h2 class="part" data-decode>Two people, one standard.</h2>
       <div class="conv part" aria-hidden="true"><svg viewBox="0 0 1200 60" preserveAspectRatio="none"><path class="cl" pathLength="1" d="M0 2 L600 56"/><path class="cl" pathLength="1" d="M1200 2 L600 56"/><circle class="cp" cx="600" cy="56" r="4"/></svg></div>
       <div class="people">
         <div class="person part">
@@ -276,14 +308,14 @@
         <li class="part">Utility-scale solar</li>
         <li class="part">Grid modernization</li>
       </ul>
-      <p class="tools mono-lbl part">TOOLS: PRIMAVERA P6, MS PROJECT, ECOSYS, SAP, ORACLE, POWER BI</p>
+      <p class="tools mono-lbl part">Tools: Primavera P6, MS Project, EcoSys, SAP, Oracle, Power BI</p>
     </div>
   </section>
 
   <section class="faq" id="faq" data-reveal>
     <div class="wrap narrow">
-      <span class="kicker part">QUESTIONS</span>
-      <h2 class="part">The questions we get asked.</h2>
+      <span class="kicker part" data-decode>Questions</span>
+      <h2 class="part" data-decode>The questions we get asked.</h2>
       <div class="conv part" aria-hidden="true"><svg viewBox="0 0 1200 60" preserveAspectRatio="none"><path class="cl" pathLength="1" d="M0 2 L600 56"/><path class="cl" pathLength="1" d="M1200 2 L600 56"/><circle class="cp" cx="600" cy="56" r="4"/></svg></div>
       <div class="acc part" id="acc">
         <div class="q"><h3><button type="button" aria-expanded="false" aria-controls="a1" id="q1">We already have a PMO. Why would we need you?<span class="plus" aria-hidden="true"></span></button></h3><div class="a" id="a1" role="region" aria-labelledby="q1"><div><p>Most of our clients do. The question is whether its numbers agree with the schedule, the forecast and the ledger. We review what you have, keep what works, and fix the places where the three disagree. If nothing is wrong, we say so.</p></div></div></div>
@@ -297,12 +329,17 @@
     </div>
   </section>
 
-  <section class="book" id="book" data-reveal>
-    <div class="shaft" aria-hidden="true"></div>
-    <div class="wrap narrow">
+  <section class="chapter" id="book" data-chapter="07" data-name="Next step" data-reveal>
+    <div class="ch-open">
+      <div class="ch-media"><img src="assets/hero-poster.jpg" alt="" aria-hidden="true" loading="lazy" width="1440" height="810"></div>
+      <div class="ch-veil" aria-hidden="true"></div>
+      <div class="ch-head">
+        <span class="ch-num" data-decode>07 · Next step</span>
+        <h2 class="ch-title" data-decode>Book a free evaluation session.</h2>
+      </div>
+    </div>
+    <div class="ch-body wrap narrow">
       <div class="panel part">
-        <span class="kicker">NEXT STEP</span>
-        <h2>Book a free evaluation session.</h2>
         <p class="lede">Bring one schedule or one monthly report. In one session with Zubaida and Yasir you will know what slipped, what is about to slip, and what it would take to get every line to one number. No proposal, no commitment.</p>
         <form class="form" id="form" novalidate>
           <div class="f2">
@@ -322,8 +359,6 @@
   </section>
 
 </main>
-
-<div class="horizon" aria-hidden="true"></div>
 
 <footer class="foot">
   <div class="wrap">
